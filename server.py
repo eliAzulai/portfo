@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-from flask import request
+from flask import Flask, render_template, request, redirect
+
 app = Flask(__name__)
 print(__name__)
 
@@ -13,14 +13,10 @@ def html_page(page_name):
 
 @app.route('/submit_form', methods=['POST', 'GET'])
 def submit_form():
-    return 'form submitted'
-    error = None
     if request.method == 'POST':
-        if valid_login(request.form['username'],
-                       request.form['password']):
-            return log_the_user_in(request.form['username'])
-        else:
-            error = 'Invalid username/password'
-    # the code below is executed if the request method
-    # was GET or the credentials were invalid
-    return render_template('login.html', error=error)
+        data= request.form.to_dict()
+        print(data)
+        return redirect('/thankyou.html')
+    else:
+        return 'something went wrong try again'
+
